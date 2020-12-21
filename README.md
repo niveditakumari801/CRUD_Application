@@ -1,2 +1,2 @@
 # CRUD_Application
-This is basic html crud application 
+This is basic crud application 
