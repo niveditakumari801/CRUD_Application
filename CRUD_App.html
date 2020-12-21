@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CRUD Application</title>
+
+        <style>
+
+body > table{
+    width: 80%;
+}
+
+table{
+    border-collapse: collapse;
+}
+table.list{
+    width:100%;
+}
+
+td, th 
+{
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+tr:nth-child(even),table.list thead>tr {
+    background-color: #dddddd;
+}
+
+input[type=text], input[type=tel], input[type=Email] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 30%;
+  background-color: #39046b;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a0ff;
+}
+
+
+
+a{
+    cursor: pointer;
+    text-decoration: underline;
+    color: #0000ee;
+    margin-right: 4px;
+}
+
+
+            
+            
+        </style>
+
+
+
+
+
+
+
+
+
+
+
+        <Script type="text/javascript">
+            var selectedRow = null
+
+            function onformSubmit()
+            {
+                var formData = readFormData();
+              if(selectedRow==null)
+                    insertNewRecord(formData);
+              else
+              updateRecord(formData);
+            resetForm();
+
+            }
+
+            function readFormData()
+            {
+                var formData = {};
+                formData["fName"] = document.getElementById("fName").value;
+                formData["LName"] = document.getElementById("LName").value;
+                formData["Email"] = document.getElementById("Email").value;
+                formData["Contact"] = document.getElementById("Contact").value;
+                formData["gender"] = document.getElementById("gender").value;
+                return formData;
+
+            }
+
+            function insertNewRecord(data)
+            {
+                var table = document.getElementById("newUser").getElementsByTagName('tbody')[0];
+                var newRow = table.insertRow(table.length);
+                cell1 = newRow.insertCell(0);
+                cell1.innerHTML = data.fName;
+                cell2 = newRow.insertCell(1);
+                cell2.innerHTML = data.LName;
+                cell3 = newRow.insertCell(2);
+                cell3.innerHTML = data.Email;
+                cell4 = newRow.insertCell(3);
+                cell4.innerHTML = data.Contact;
+                cell5 = newRow.insertCell(4);
+                cell5.innerHTML = data.gender;
+                cell5 = newRow.insertCell(5);
+                cell5.innerHTML = `<a onClick= "onEdit(this)">Edit</a>
+                <a onClick="onDelete(this)">Delete</a>`;
+                
+                
+            }
+
+            function resetForm()
+            {
+                document.getElementById("fName").value = "";
+                document.getElementById("LName").value = "";
+                document.getElementById("Email").value = "";
+                document.getElementById("Contact").value = "";
+                document.getElementById("gender").value = "";
+                selectedRow = null;
+            }
+
+            function onEdit(td){
+                
+                selectedRow = td.parentElement.parentElement;
+                document.getElementById("fName").value = selectedRow.cells[0].innerHTML;
+                document.getElementById("LName").value = selectedRow.cells[1].innerHTML;
+                document.getElementById("Email").value = selectedRow.cells[2].innerHTML;
+                document.getElementById("Contact").value = selectedRow.cells[3].innerHTML;
+                document.getElementById("gender").value = selectedRow.cells[4].innerHTML;
+                
+            
+
+            }
+
+        
+
+            function updateRecord(formData)
+            {
+                
+                selectedRow.cell[0].innerHTML = formData.fName;
+                selectedRow.cell[1].innerHTML = formData.LName;
+                selectedRow.cell[2].innerHTML = formData.Email;
+                selectedRow.cell[3].innerHTML= formData.Contact;
+                selectedRow.cell[4].innerHTML= formData.gender;
+                
+                
+            }
+
+
+            function onDelete(td)
+            {
+                if(confirm("Are you sure to delete this record?"))
+                {
+                    row = td.parentElement.parentElement;
+                    document.getElementById("newUser").deleteRow(row.rowIndex);
+                    resetForm();
+                }
+            }
+
+
+            function sortTable() {
+            var table, rows, switching, i, x, y, shouldSwitch;
+            table = document.getElementById("newUser");
+            switching = true;
+  
+            while (switching) {
+    
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < (rows.length - 1); i++) {
+    
+            shouldSwitch = false;
+     
+            x = rows[i].getElementsByTagName("TD")[0];
+            y = rows[i + 1].getElementsByTagName("TD")[0];
+    
+            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+    
+            shouldSwitch = true;
+            break;
+            }
+             }
+            if (shouldSwitch) {
+      
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+             }
+            }
+            }
+
+        </Script>
+
+    </head>
+
+    <body>
+       
+        <table>
+            <tr>
+                <td>
+                    <form onsubmit="event.preventDefault(); onformSubmit();" class="formTable">
+                            <label for="fName" >First Name:</label>
+                            <input type="text" id="fName" name="Name" value="" required><br><br>
+
+                            <label for="LName">Last Name:</label>
+                            <input type="text" id="LName" name="LName" value=""><br><br>
+
+                            <label for="email" >Email:</label>
+                            <input Type="email" id="Email" name="email" value="" required><br><br>
+
+                            <label for="Contact" >Contact:</label>
+                            <input Type="text" id="Contact" name="contact" value="" required><br><br>
+
+                        <!-- gender start  -->
+                        <label> Gender:</label>
+                        <select id="gender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                            
+                          </select><br><br>
+                            <!-- gender end -->
+
+                            <input id="SubmitBtn" type="Submit" value="ADD">
+                            
+                    </form>
+                </td>
+                <td>
+                    <table class="list" id="newUser" >
+
+                        <thead>
+                            <tr>
+                                <th> fName</th>
+                                <th>LName</th>
+                                <th>Email</th>
+                                <th>Contact</th>
+                                <th>gender</th>
+                                <th></th>
+                                <button onclick="sortTable()">short list</button>
+                                  
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+    
+</html>
+
