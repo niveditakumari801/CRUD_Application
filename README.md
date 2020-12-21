@@ -1,2 +1,2 @@
 # CRUD_Application
-Add,Edit,Delete,list,Pagination,Sorting
+This is basic html crud application 
